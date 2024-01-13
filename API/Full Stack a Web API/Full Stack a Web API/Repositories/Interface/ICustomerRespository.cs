@@ -9,7 +9,7 @@ namespace Full_Stack_a_Web_API.Repositories.Interface
         Task<Customer?> GetById(Guid id);
 
         Task<Customer?> UpdateAsync(Customer customer);
-
+        Task<Customer> DeleteAsync(Guid id);
 
     }
 }

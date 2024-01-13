@@ -21,7 +21,20 @@ namespace Full_Stack_a_Web_API.Repositories.Implementation
             await DbContext.Customers.AddAsync(customer);
             await DbContext.SaveChangesAsync();
             return customer;
-            
+
+        }
+
+        public async Task<Customer> DeleteAsync(Guid id)
+        {
+            var existingCustomer = await DbContext.Customers.FirstOrDefaultAsync(x => x.CustomerID == id);
+
+            if (existingCustomer is null)
+            {
+                return null;
+            }
+            DbContext.Customers.Remove(existingCustomer);
+          await DbContext.SaveChangesAsync();
+            return existingCustomer;
         }
 
         //Get all customers

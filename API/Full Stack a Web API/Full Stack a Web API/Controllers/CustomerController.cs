@@ -124,8 +124,78 @@ namespace Full_Stack_a_Web_API.Controllers
             return Ok(response);
         }
 
-        
+        [HttpPut]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> EditCustomer([FromRoute] Guid id, UpdateEmployeeDTO request)
+        {
+            //map Domain model to DTO
+            var customer = new Customer
+            {
+                CustomerID = id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                EmailAddress = request.EmailAddress,
+                DateOfBirth = request.DateOfBirth,
+                Age = request.Age,
+                DateCreated = request.DateCreated,
+                DateEdited = request.DateEdited,
+                IsDeleted = request.IsDeleted
+
+            };
+
+            customer = await customerRespository.UpdateAsync(customer);
+
+            var response = new CustomerDTO
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                UserName = customer.UserName,
+                EmailAddress = customer.EmailAddress,
+                DateOfBirth = customer.DateOfBirth,
+                Age = customer.Age,
+                DateCreated = customer.DateCreated,
+                DateEdited = customer.DateEdited,
+                IsDeleted = customer.IsDeleted
+            };
+            return Ok(response);
+
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
+        {
+            var customer = await customerRespository.DeleteAsync(id);
+
+            if(customer == null)
+            {
+                return NotFound();
+            }
+
+            //map domain model to DTO
+
+            var response = new CustomerDTO
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                UserName = customer.UserName,
+                EmailAddress = customer.EmailAddress,
+                DateOfBirth = customer.DateOfBirth,
+                Age = customer.Age,
+                DateCreated = customer.DateCreated,
+                DateEdited = customer.DateEdited,
+                IsDeleted = customer.IsDeleted
+            };
+            return Ok(response);
+        }
 
 
     }
 }
+
+
+
+
