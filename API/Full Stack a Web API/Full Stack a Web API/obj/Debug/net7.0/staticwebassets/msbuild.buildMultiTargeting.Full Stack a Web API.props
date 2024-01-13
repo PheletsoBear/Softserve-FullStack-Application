@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Full Stack a Web API.props" />
+</Project>
