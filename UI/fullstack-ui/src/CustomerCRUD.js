@@ -6,14 +6,37 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Toast } from 'bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 const CustomerCRUD = () => {
-
+//Handle Edit
   const [show, setShow] = useState(false);
   
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+ 
 
+  //Handle delete alert
+  const [show2, setShow2] = useState(false);
+  
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
+// For submit
+
+const [firstName, setfirstName] = useState ('');
+const [LastName, setLastName] = useState ('');
+const [UserName, setUserName] = useState ('');
+const [EmailAddress, setEmailAddress] = useState ('');
+const [DateOfBirth, setDateOfBirth] = useState ('');
+const [Age, setAge] = useState ('');
+const [DateCreated, setDateCreated] = useState ('');
+const [DateEdited, setDateEdited] = useState ('');
+const [IsDeleted, setIsDeleted] = useState (0);
+
+
+  
 //For Update
 const [editCustomerID, setEditCustomerID] = useState ('');
 const [editfirstName, seteditfirstName] = useState ('');
@@ -60,7 +83,17 @@ const handleUpdate = ()=>{
 const HandleEdit = (customerID) =>{
   //alert(id);
   handleShow();
-  console.log(customerID)
+  axios.get('https://localhost:7066/api/Customer').then((result) =>{
+    console.log(result.data);
+
+    
+  
+  }).catch((error)=>{
+
+    console.error('Error fetching data:', error); 
+    });
+
+  
 }  
 
 
@@ -73,17 +106,148 @@ const HandleActiveEditChange = (e) =>{
   }
 }
 
+const HandleFocusDate =(e) =>{
+  e.target.type = 'Date';
+}
+const HandleFocuDatetime =(e) =>{
+  e.target.type = 'datetime-local';
+}
+
+const HandleDelete = (id) =>{
+  //this displays alert upon window confirmation
+  handleShow2();
+  console.log(id)
+ } 
+
+ 
+ const HandleSave = ()=>{
+  const url = 'https://localhost:7066/api/Customer';
+  const data =	 {
+    
+    "firstName": firstName,
+    "age": Age,
+    "lastName": LastName,
+    "userName" : UserName,
+     "emailAddress" : EmailAddress,
+     "dateOfBirth" : DateOfBirth,
+     "dateCreated": DateCreated,
+     "dateEdited" : DateEdited,
+     "isDeleted" : IsDeleted
+
+  
+  }
+
+  axios.post(url, data).then((result)=>{
+    GetData();
+    clear();
+    toast.success('Employee has been Added');
+  })
+
+}
+
+const clear = ( ) =>{
+  setfirstName ('');
+  setLastName('');
+  setUserName('');
+  setEmailAddress('');
+  setDateOfBirth('');
+  setAge('');
+  setDateEdited('');
+  setDateCreated('');
+  setIsDeleted(0);
+}
+
 
   return (
     <div>
-   
+
+<Fragment>
+<Container>
       <br/>
-    <Fragment>
+      <Row>
+        <Col>
+        <input type='text' className='form-control' placeholder='Enter firstName ' value={firstName} 
+        onChange={(e) => setfirstName(e.target.value)}
+        />
+        <br />
+        </Col>
+        <Col>
+         <input type='text' className='form-control' placeholder='Enter LastName' value={LastName}
+          onChange={(e) => setLastName(e.target.value)} />
+        <br />
+        </Col>
+        </Row>
+        <Row>
+
+        
+        <Col>
+         <input type='text' className='form-control' placeholder='Enter UserName' value={UserName}
+          onChange={(e) => setUserName(e.target.value)} />
+        <br />
+        </Col>
+        
+        
+        <Col>
+         <input type='email' className='form-control' placeholder='Enter Email Address' value={EmailAddress}
+          onChange={(e) => setEmailAddress(e.target.value)} />
+        <br />
+        </Col>
+       </Row>
+       <Row> 
+        <Col>
+         <input type='text' className='form-control' placeholder='Enter Date of birth' value={DateOfBirth}
+          onChange={(e) => setDateOfBirth(e.target.value)} onFocus={HandleFocusDate}/>
+        <br />
+        </Col>
+        <Col>
+         <input type='number' className='form-control' placeholder='Age ' value={Age}
+          onChange={(e) => setAge(e.target.value)} />
+        <br />
+        </Col>
+        
+      </Row>
+      <Row>
+
+      <Col className="date-input-container">
+         <input type='text' className='form-control' placeholder='Enter Date Created'  value={DateCreated}
+          onChange={(e) => setDateCreated(e.target.value)}  onFocus={HandleFocuDatetime} />
+        <br />
+        </Col>
+        <Col>
+         <input type='text' className='form-control' placeholder='Enter Date Edited ' value={DateEdited}
+          onChange={(e) => setDateEdited(e.target.value)} onFocus={HandleFocuDatetime} />
+        <br />
+        </Col>
+
+      </Row>
+      <Row>
+      <Col>
+      <input type='checkbox' 
+       checked = {editIsDeleted === 1? true: false} 
+       onChange={(e)=> HandleActiveEditChange(e)} value ={editIsDeleted} />&nbsp;
+        <label>IsDeleted</label>
+        
+        </Col>
+
+        <Col>
+        <Button  className='btn btn-primary' onClick={()=>HandleSave()}>submit</Button>
+        </Col>
+       
+
+      </Row>
+      
+    </Container>
+
+
+    
+      <br/>
+      <h1>Customers</h1>
+      <br/>
     <Table striped bordered hover>
     <thead>
       <tr>
         <th>#</th>
-        <th>firstName</th>
+        <th>first Name</th>
         <th>Last Name</th>
         <th>UserName</th>
         <th>Email Address</th>
@@ -122,7 +286,7 @@ const HandleActiveEditChange = (e) =>{
 
       <td colSpan={2}>
         <button className='btn btn-primary' onClick = {()=>HandleEdit(item.customerID)}>Edit</button> &nbsp;
-        <button className='btn btn-danger'>Delete</button>
+        <button className='btn btn-danger' onClick = {()=>HandleDelete(item.customerID )}>Delete</button>
       </td>
     </tr>
   ))
@@ -176,8 +340,8 @@ const HandleActiveEditChange = (e) =>{
        </Row>
        <Row> 
         <Col>
-         <input type='date' className='form-control' placeholder='Enter Date of birth' value={editDateOfBirth}
-          onChange={(e) => seteditDateOfBirth(e.target.value)} />
+         <input type='text' className='form-control' placeholder='Enter Date of birth' value={editDateOfBirth}
+          onChange={(e) => seteditDateOfBirth(e.target.value)} onFocus={HandleFocusDate}/>
         <br />
         </Col>
         <Col>
@@ -189,14 +353,14 @@ const HandleActiveEditChange = (e) =>{
       </Row>
       <Row>
 
-      <Col>
-         <input type='date' className='form-control' placeholder='Date Created'  value={editDateCreated}
-          onChange={(e) => setEditDateCreated(e.target.value)}   />
+      <Col className="date-input-container">
+         <input type='text' className='form-control' placeholder='Enter Date Created'  value={editDateCreated}
+          onChange={(e) => setEditDateCreated(e.target.value)}  onFocus={HandleFocuDatetime} />
         <br />
         </Col>
         <Col>
-         <input type='date' className='form-control' placeholder='Date Edited ' value={editDateEdited}
-          onChange={(e) => setEditDateEdited(e.target.value)} />
+         <input type='text' className='form-control' placeholder='Enter Date Edited ' value={editDateEdited}
+          onChange={(e) => setEditDateEdited(e.target.value)} onFocus={HandleFocuDatetime} />
         <br />
         </Col>
 
@@ -227,6 +391,31 @@ const HandleActiveEditChange = (e) =>{
       </Modal>
 
     
+      {/*Delete modal */}
+
+      
+      <Modal
+        show={show2}
+        onHide={handleClose2}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+         <p >
+          Are you sure?
+         </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose2}>
+            Cancel
+          </Button>
+          <Button variant="danger">Delete</Button>
+        </Modal.Footer>
+      </Modal>
+
     </Fragment>
 </div>
    )}
