@@ -6,8 +6,9 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import { Toast } from 'bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const CustomerCRUD = () => {
 //Handle Edit
@@ -111,7 +112,7 @@ const HandleActiveEditChange = (e) =>{
 const HandleFocusDate =(e) =>{
   e.target.type = 'Date';
 }
-const HandleFocuDatetime =(e) =>{
+const HandleFocusDatetime =(e) =>{
   e.target.type = 'datetime-local';
 }
 
@@ -137,9 +138,9 @@ const HandleDelete = (id) =>{
   "emailAddress": EmailAddress,
   "dateOfBirth": DateOfBirth,
   "age": Age,
-  "dateCreated": DateCreated,
-  "dateEdited": DateEdited,
-  "isDeleted": IsDeleted
+  "dateCreated": new Date().toISOString(),
+  "dateEdited": new Date().toISOString(),
+  "isDeleted":  Boolean(IsDeleted)
    
   
   }
@@ -148,6 +149,13 @@ const HandleDelete = (id) =>{
     GetData();
     clear();
     toast.success('Employee has been Added');
+  }).catch((error)=>{
+    if (error.response && error.response.status === 400) {
+      // Handle validation errors
+      const validationErrors = error.response.data.errors;
+      // Display validationErrors to the user in your UI
+      console.error(validationErrors);
+    }
   })
 
 }
@@ -163,14 +171,22 @@ const clear = ( ) =>{
   setDateEdited('');
   setIsDeleted(0);
 }
+const customToastContainerStyle = {
+  colorDefault: '#ffffff',
+  colorSuccess: '#008000',  // Green color for success
+  progressStyle: {
+    background: '#008000',  // Green color for progress bar
+  },
+};
 
 // JSX OF THE APPLICATION
   return (
     <div>
 
 <Fragment>
-     <h1>Add Customer</h1>
+     <ToastContainer />
 <Container>
+     <h1>Add Customer</h1>
       <br/>
       <Row>
         <Col>
@@ -196,7 +212,7 @@ const clear = ( ) =>{
         
         
         <Col>
-         <input type='text' id='EmailAddress' name='EmailAddress' className='form-control' placeholder='Enter Email Address' value={EmailAddress}
+         <input type='email' id='EmailAddress' name='EmailAddress' className='form-control' placeholder='Enter Email Address' value={EmailAddress}
           onChange={(e) => setEmailAddress(e.target.value)}  autoComplete="email" />
         <br />
         </Col>
@@ -204,11 +220,11 @@ const clear = ( ) =>{
        <Row> 
         <Col>
          <input type='text' id='DateOfBirth' name='DateOfBirth' className='form-control' placeholder='Enter Date of birth' value={DateOfBirth}
-          onChange={(e) => setDateOfBirth(e.target.value)} />
+          onChange={(e) => setDateOfBirth(e.target.value)} onFocus={HandleFocusDate}  />
         <br />
         </Col>
         <Col>
-         <input type='text' id='Age' name='Age' className='form-control' placeholder='Age ' value={Age}
+         <input type='number' id='Age' name='Age' className='form-control' placeholder='Age ' value={Age}
           onChange={(e) => setAge(e.target.value)} />
         <br />
         </Col>
@@ -218,12 +234,12 @@ const clear = ( ) =>{
 
       <Col className="date-input-container">
          <input type='text' id='DateCreated' name='DateCreated' className='form-control' placeholder='Enter Date Created'  value={DateCreated}
-          onChange={(e) => setDateCreated(e.target.value)}  />
+          onChange={(e) => setDateCreated(e.target.value)} onFocus={HandleFocusDatetime}  />
         <br />
         </Col>
         <Col>
          <input type='text' id='DateEdited' name='DateEdited' className='form-control' placeholder='Enter Date Edited ' value={DateEdited}
-          onChange={(e) => setDateEdited(e.target.value)}/>
+          onChange={(e) => setDateEdited(e.target.value)} onFocus={HandleFocusDatetime}/>
         <br />
         </Col>
 
@@ -363,12 +379,12 @@ const clear = ( ) =>{
 
       <Col className="date-input-container">
          <input type='text' className='form-control' placeholder='Enter Date Created'  value={editDateCreated}
-          onChange={(e) => setEditDateCreated(e.target.value)}  onFocus={HandleFocuDatetime} />
+          onChange={(e) => setEditDateCreated(e.target.value)}  onFocus={HandleFocusDatetime} />
         <br />
         </Col>
         <Col>
          <input type='text' className='form-control' placeholder='Enter Date Edited ' value={editDateEdited}
-          onChange={(e) => setEditDateEdited(e.target.value)} onFocus={HandleFocuDatetime} />
+          onChange={(e) => setEditDateEdited(e.target.value)} onFocus={HandleFocusDatetime} />
         <br />
         </Col>
 
