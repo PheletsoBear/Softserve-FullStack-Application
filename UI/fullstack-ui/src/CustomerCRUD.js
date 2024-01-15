@@ -89,8 +89,10 @@ const HandleEdit = (customerID) =>{
     
   
   }).catch((error)=>{
-
     console.error('Error fetching data:', error); 
+     if (error.result){
+         console.error('error:', error);
+     }
     });
 
   
@@ -99,10 +101,10 @@ const HandleEdit = (customerID) =>{
 
 const HandleActiveEditChange = (e) =>{
   if(e.target.checked){
-    setEditIsDeleted(1);
+    setIsDeleted(1);
   }
   else{
-    setEditIsDeleted(0);
+    setIsDeleted(0);
   }
 }
 
@@ -124,18 +126,20 @@ const HandleDelete = (id) =>{
   const url = 'https://localhost:7066/api/Customer';
   const data =	 {
     
-    "firstName": firstName,
-    "age": Age,
-    "lastName": LastName,
-    "userName" : UserName,
-     "emailAddress" : EmailAddress,
-     "dateOfBirth" : DateOfBirth,
-     "dateCreated": DateCreated,
-     "dateEdited" : DateEdited,
-     "isDeleted" : IsDeleted
-
+     
+ 
+  "firstName": firstName,
+  "lastName": LastName,
+  "userName": UserName,
+  "emailAddress": EmailAddress,
+  "dateOfBirth": DateOfBirth,
+  "age": Age,
+  "dateCreated": DateCreated,
+  "dateEdited": DateEdited,
+  "isDeleted": IsDeleted
+   
   
-  }
+  };
 
   axios.post(url, data).then((result)=>{
     GetData();
@@ -152,16 +156,17 @@ const clear = ( ) =>{
   setEmailAddress('');
   setDateOfBirth('');
   setAge('');
-  setDateEdited('');
   setDateCreated('');
+  setDateEdited('');
   setIsDeleted(0);
 }
 
-
+// JSX OF THE APPLICATION
   return (
     <div>
 
 <Fragment>
+     <h1>Add Customer</h1>
 <Container>
       <br/>
       <Row>
@@ -223,14 +228,14 @@ const clear = ( ) =>{
       <Row>
       <Col>
       <input type='checkbox' 
-       checked = {editIsDeleted === 1? true: false} 
-       onChange={(e)=> HandleActiveEditChange(e)} value ={editIsDeleted} />&nbsp;
+       checked = {IsDeleted === 1? true: false} 
+       onChange={(e)=> HandleActiveEditChange(e)} value ={IsDeleted} />&nbsp;
         <label>IsDeleted</label>
         
         </Col>
 
         <Col>
-        <Button  className='btn btn-primary' onClick={()=>HandleSave()}>submit</Button>
+        <Button  className='btn btn-primary' onClick={()=>HandleSave()}>Add customer</Button>
         </Col>
        
 
