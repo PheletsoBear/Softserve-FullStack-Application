@@ -123,6 +123,9 @@ const HandleDelete = (id) =>{
 
  
  const HandleSave = ()=>{
+
+
+
   const url = 'https://localhost:7066/api/Customer';
   const data =	 {
     
@@ -139,7 +142,7 @@ const HandleDelete = (id) =>{
   "isDeleted": IsDeleted
    
   
-  };
+  }
 
   axios.post(url, data).then((result)=>{
     GetData();
@@ -171,14 +174,14 @@ const clear = ( ) =>{
       <br/>
       <Row>
         <Col>
-        <input type='text' className='form-control' placeholder='Enter firstName ' value={firstName} 
-        onChange={(e) => setfirstName(e.target.value)}
+        <input type='text' id='firsName' name='firstName' className='form-control' placeholder='Enter firstName ' value={firstName} 
+        onChange={(e) => setfirstName(e.target.value)} autoComplete="given-name"
         />
         <br />
         </Col>
         <Col>
-         <input type='text' className='form-control' placeholder='Enter LastName' value={LastName}
-          onChange={(e) => setLastName(e.target.value)} />
+         <input type='text' id='LastName' name='LastName' className='form-control' placeholder='Enter LastName' value={LastName}
+          onChange={(e) => setLastName(e.target.value)}  autoComplete="family-name" />
         <br />
         </Col>
         </Row>
@@ -186,26 +189,26 @@ const clear = ( ) =>{
 
         
         <Col>
-         <input type='text' className='form-control' placeholder='Enter UserName' value={UserName}
-          onChange={(e) => setUserName(e.target.value)} />
+         <input type='text' id='UserName' name='UserName' className='form-control' placeholder='Enter UserName' value={UserName}
+          onChange={(e) => setUserName(e.target.value)} autoComplete="username"/>
         <br />
         </Col>
         
         
         <Col>
-         <input type='email' className='form-control' placeholder='Enter Email Address' value={EmailAddress}
-          onChange={(e) => setEmailAddress(e.target.value)} />
+         <input type='text' id='EmailAddress' name='EmailAddress' className='form-control' placeholder='Enter Email Address' value={EmailAddress}
+          onChange={(e) => setEmailAddress(e.target.value)}  autoComplete="email" />
         <br />
         </Col>
        </Row>
        <Row> 
         <Col>
-         <input type='text' className='form-control' placeholder='Enter Date of birth' value={DateOfBirth}
-          onChange={(e) => setDateOfBirth(e.target.value)} onFocus={HandleFocusDate}/>
+         <input type='text' id='DateOfBirth' name='DateOfBirth' className='form-control' placeholder='Enter Date of birth' value={DateOfBirth}
+          onChange={(e) => setDateOfBirth(e.target.value)} />
         <br />
         </Col>
         <Col>
-         <input type='number' className='form-control' placeholder='Age ' value={Age}
+         <input type='text' id='Age' name='Age' className='form-control' placeholder='Age ' value={Age}
           onChange={(e) => setAge(e.target.value)} />
         <br />
         </Col>
@@ -214,23 +217,23 @@ const clear = ( ) =>{
       <Row>
 
       <Col className="date-input-container">
-         <input type='text' className='form-control' placeholder='Enter Date Created'  value={DateCreated}
-          onChange={(e) => setDateCreated(e.target.value)}  onFocus={HandleFocuDatetime} />
+         <input type='text' id='DateCreated' name='DateCreated' className='form-control' placeholder='Enter Date Created'  value={DateCreated}
+          onChange={(e) => setDateCreated(e.target.value)}  />
         <br />
         </Col>
         <Col>
-         <input type='text' className='form-control' placeholder='Enter Date Edited ' value={DateEdited}
-          onChange={(e) => setDateEdited(e.target.value)} onFocus={HandleFocuDatetime} />
+         <input type='text' id='DateEdited' name='DateEdited' className='form-control' placeholder='Enter Date Edited ' value={DateEdited}
+          onChange={(e) => setDateEdited(e.target.value)}/>
         <br />
         </Col>
 
       </Row>
       <Row>
       <Col>
-      <input type='checkbox' 
+      <input id='checkbox' name='checkbox' type='checkbox' 
        checked = {IsDeleted === 1? true: false} 
        onChange={(e)=> HandleActiveEditChange(e)} value ={IsDeleted} />&nbsp;
-        <label>IsDeleted</label>
+        <label htmlFor='checkbox' >IsDeleted</label>
         
         </Col>
 
