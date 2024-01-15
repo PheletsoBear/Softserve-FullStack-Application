@@ -25,6 +25,10 @@ namespace Full_Stack_a_Web_API.Controllers
         public async Task<IActionResult> CreateCustomer(CustomerDTO request)
         {
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             //mapping DTO to Domain model
 
