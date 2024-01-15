@@ -84,8 +84,16 @@ const handleUpdate = ()=>{
 const HandleEdit = (customerID) =>{
   //alert(id);
   handleShow();
-  axios.get('https://localhost:7066/api/Customer').then((result) =>{
-    console.log(result.data);
+  axios.get(`https://localhost:7066/api/Customer/${customerID}`).then((result) =>{
+   
+ setEditCustomerID(customerID)
+ seteditfirstName(result.data.firstName)
+ setEditeditLastName (result.data.LastName)
+ seteditUserName(result.data.UserName)
+setEditEmailAddress(result.data.EmailAddress)
+seteditDateOfBirth(result.data.DateOfBirth)
+setEditeditAge(result.data.Age)
+setEditIsDeleted(result.data.isDeleted)
 
     
   
@@ -119,9 +127,15 @@ const HandleFocusDatetime =(e) =>{
 const HandleDelete = (id) =>{
   //this displays alert upon window confirmation
   handleShow2();
-  console.log(id)
+console.log(id)
+   return id;
  } 
 
+ const Delete = () => {
+  
+  console.log(HandleDelete()) 
+
+};
  
  const HandleSave = ()=>{
 
@@ -171,13 +185,6 @@ const clear = ( ) =>{
   setDateEdited('');
   setIsDeleted(0);
 }
-const customToastContainerStyle = {
-  colorDefault: '#ffffff',
-  colorSuccess: '#008000',  // Green color for success
-  progressStyle: {
-    background: '#008000',  // Green color for progress bar
-  },
-};
 
 // JSX OF THE APPLICATION
   return (
@@ -238,7 +245,7 @@ const customToastContainerStyle = {
         <br />
         </Col>
         <Col>
-         <input type='text' id='DateEdited' name='DateEdited' className='form-control' placeholder='Enter Date Edited ' value={DateEdited}
+         <input type='text' id='DateEdited' name='DateEdited' className='form-control' placeholder='Enter Date Edited ' d value={DateEdited}
           onChange={(e) => setDateEdited(e.target.value)} onFocus={HandleFocusDatetime}/>
         <br />
         </Col>
@@ -436,7 +443,7 @@ const customToastContainerStyle = {
           <Button variant="secondary" onClick={handleClose2}>
             Cancel
           </Button>
-          <Button variant="danger">Delete</Button>
+          <Button variant="danger" onClick={()=> Delete()} >Delete</Button>
         </Modal.Footer>
       </Modal>
 
