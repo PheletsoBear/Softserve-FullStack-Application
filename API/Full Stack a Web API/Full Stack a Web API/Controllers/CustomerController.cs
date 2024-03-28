@@ -22,12 +22,41 @@ namespace Full_Stack_a_Web_API.Controllers
 
         //Create Customer
         [HttpPost]
-        public async Task<IActionResult> CreateCustomer(CustomerDTO request)
+        public async Task<IActionResult> CreateCustomer(CreateCustomerDTO request)
         {
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+
+
+            string UserName = $"{request.FirstName} {request.LastName}";
+
+            //This parses the Date of birth to Datetime datatype and also ensures that if incorrect date format is inserted, the correct BadRequest message is sent out
+            DateTime dateOfBirth;
+            if (!DateTime.TryParse(request.DateOfBirth, out dateOfBirth))
+            {
+                return BadRequest("Invalid DateOfBirth format");
+            }
+
+           
+            //This code declares today variable then finds the difference between the todays and the date of birth
+
+            DateTime today = DateTime.Today;
+            int age = today.Year - dateOfBirth.Year;
+
+            // Check if the birthday has not passed yet this year
+            if (dateOfBirth > today.AddYears(-age)){
+                // If the birthday hasn't passed yet, decrement the age by 1
+                age--;
+            }
+
+            // Condition that if dateOfBirth is greater than today's date then bad request is flagged with error response 400
+            if (dateOfBirth > today)
+            {
+                return BadRequest("Invalid rquest: Date of Birth cannot be greater than today's Date");
             }
 
             //mapping DTO to Domain model
@@ -36,12 +65,12 @@ namespace Full_Stack_a_Web_API.Controllers
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                UserName = request.UserName,
+                UserName = UserName,
                 EmailAddress = request.EmailAddress,
                 DateOfBirth = request.DateOfBirth,
-                Age = request.Age,
+                Age = age,
                 DateCreated = request.DateCreated,
-                DateEdited = request.DateEdited,
+                DateEdited = (DateTime)request.DateEdited,
                 IsDeleted = request.IsDeleted
             };
 
@@ -52,14 +81,15 @@ namespace Full_Stack_a_Web_API.Controllers
             var response = new CustomerDTO
             {
                 CustomerID = customer.CustomerID,
-                FirstName = request.FirstName,
-                UserName = request.LastName,
-                EmailAddress = request.EmailAddress,
-                DateOfBirth = request.DateOfBirth,
-                Age = request.Age,
-                DateCreated = request.DateCreated,
-                DateEdited = request.DateEdited,
-                IsDeleted = request.IsDeleted
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                UserName = customer.UserName,
+                EmailAddress = customer.EmailAddress,
+                DateOfBirth = customer.DateOfBirth,
+                Age = customer.Age,
+                DateCreated = customer.DateCreated,
+                DateEdited = customer.DateEdited,
+                IsDeleted = customer.IsDeleted
             };
             return Ok(response);
 
@@ -92,8 +122,8 @@ namespace Full_Stack_a_Web_API.Controllers
 
                 });
             }
-                return Ok(response);
-            
+            return Ok(response);
+
 
         }
 
@@ -105,7 +135,7 @@ namespace Full_Stack_a_Web_API.Controllers
         {
             var existingCategory = await customerRespository.GetById(id);
 
-            if(existingCategory is null)
+            if (existingCategory is null)
             {
                 return NotFound();
             }
@@ -170,11 +200,11 @@ namespace Full_Stack_a_Web_API.Controllers
         [HttpDelete]
         [Route("{id:Guid}")]
 
-        public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteCustomer([FromRoute] Guid id)
         {
             var customer = await customerRespository.DeleteAsync(id);
 
-            if(customer == null)
+            if (customer == null)
             {
                 return NotFound();
             }
