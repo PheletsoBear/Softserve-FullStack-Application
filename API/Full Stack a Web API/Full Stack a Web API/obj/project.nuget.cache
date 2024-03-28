@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aBo2J8uSL8k1peIkLbDLy9EvFqF4KR49XbFWtWOsNi3G/XPVOeoVShEwmzpNfhnkECW4fCz0+64otazHxQgZmQ==",
+  "dgSpecHash": "D65ubaEgiUa1a0/htX5WNMzVmjbd3w9nyF568pvoXKiwIJ+wZKaaUCYIGogBGYIgF7fpis8mMnbsm9Fw8MZl8w==",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\Documents\\Sofware_Development\\SoftServe-Assessment\\API\\Full Stack a Web API\\Full Stack a Web API\\Full Stack a Web API.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\DELL\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.13\\microsoft.aspnetcore.authentication.jwtbearer.7.0.13.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authorization.policy\\2.2.0\\microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",

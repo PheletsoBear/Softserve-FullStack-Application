@@ -74,3 +74,4 @@ C:\Users\DELL\Documents\Sofware_Development\SoftServe-Assessment\API\Full Stack 
 C:\Users\DELL\Documents\Sofware_Development\SoftServe-Assessment\API\Full Stack a Web API\Full Stack a Web API\obj\Debug\net7.0\Full Stack a Web API.pdb
 C:\Users\DELL\Documents\Sofware_Development\SoftServe-Assessment\API\Full Stack a Web API\Full Stack a Web API\obj\Debug\net7.0\Full Stack a Web API.genruntimeconfig.cache
 C:\Users\DELL\Documents\Sofware_Development\SoftServe-Assessment\API\Full Stack a Web API\Full Stack a Web API\obj\Debug\net7.0\ref\Full Stack a Web API.dll
+C:\Users\DELL\Documents\Sofware_Development\SoftServe-Assessment\API\Full Stack a Web API\Full Stack a Web API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

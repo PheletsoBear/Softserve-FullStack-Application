@@ -30,8 +30,6 @@ namespace Full_Stack_a_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-
-
             string UserName = $"{request.FirstName} {request.LastName}";
 
             //This parses the Date of birth to Datetime datatype and also ensures that if incorrect date format is inserted, the correct BadRequest message is sent out
