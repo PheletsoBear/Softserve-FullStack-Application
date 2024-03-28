@@ -30,6 +30,17 @@ namespace Full_Stack_a_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
+            DateTime? dateEdited = request.DateEdited;
+
+            if (!dateEdited.HasValue)
+            {
+
+            }
+            else
+            {
+                var dateEditedVal = dateEdited.Value;
+            }
+
             string UserName = $"{request.FirstName} {request.LastName}";
 
             //This parses the Date of birth to Datetime datatype and also ensures that if incorrect date format is inserted, the correct BadRequest message is sent out
@@ -161,16 +172,45 @@ namespace Full_Stack_a_Web_API.Controllers
 
         public async Task<IActionResult> EditCustomer([FromRoute] Guid id, UpdateEmployeeDTO request)
         {
+
+
+            string UserName = $"{request.FirstName} {request.LastName}";
+            //This parses the Date of birth to Datetime datatype and also ensures that if incorrect date format is inserted, the correct BadRequest message is sent out
+            DateTime dateOfBirth;
+            if (!DateTime.TryParse(request.DateOfBirth, out dateOfBirth))
+            {
+                return BadRequest("Invalid DateOfBirth format");
+            }
+
+
+            //This code declares today variable then finds the difference between the todays and the date of birth
+
+            DateTime today = DateTime.Today;
+            int age = today.Year - dateOfBirth.Year;
+
+            // Check if the birthday has not passed yet this year
+            if (dateOfBirth > today.AddYears(-age))
+            {
+                // If the birthday hasn't passed yet, decrement the age by 1
+                age--;
+            }
+
+            // Condition that if dateOfBirth is greater than today's date then bad request is flagged with error response 400
+            if (dateOfBirth > today)
+            {
+                return BadRequest("Invalid rquest: Date of Birth cannot be greater than today's Date");
+            }
+
             //map Domain model to DTO
             var customer = new Customer
             {
                 CustomerID = id,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                UserName = request.UserName,
+                UserName = UserName,
                 EmailAddress = request.EmailAddress,
                 DateOfBirth = request.DateOfBirth,
-                Age = request.Age,
+                Age = age,
                 DateCreated = request.DateCreated,
                 DateEdited = request.DateEdited,
                 IsDeleted = request.IsDeleted

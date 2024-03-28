@@ -22,7 +22,7 @@ namespace Full_Stack_a_Web_API.Models.DTO
         public DateTime DateCreated { get; set; }
 
         //This property will be ignored and it's initial value will be set as null and will only be set when it is edited in the PUT method/JSON
-        //[JsonIgnore]
+        [JsonIgnore]
         public DateTime DateEdited { get; set; }
         public bool IsDeleted { get; set; }
 
