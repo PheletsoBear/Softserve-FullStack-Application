@@ -22,8 +22,9 @@ namespace Full_Stack_a_Web_API.Models.DTO
         [JsonIgnore]// This ignores the property of From the JSON file
         public int? Age { get; set; }
 
-        [JsonIgnore]// This ignores the property of From the JSON file
+        [JsonIgnore]
         public DateTime DateCreated { get; set; }
+        [JsonIgnore]
         public DateTime DateEdited { get; set; }
         public bool IsDeleted { get; set; }
 

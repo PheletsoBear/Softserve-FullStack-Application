@@ -19,6 +19,7 @@ namespace Full_Stack_a_Web_API.Controllers
             this.customerRespository = customerRespository;
         }
 
+        
 
         //Create Customer
         [HttpPost]
@@ -30,18 +31,11 @@ namespace Full_Stack_a_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            DateTime? dateEdited = request.DateEdited;
 
-            if (!dateEdited.HasValue)
-            {
 
-            }
-            else
-            {
-                var dateEditedVal = dateEdited.Value;
-            }
+          
 
-            string UserName = $"{request.FirstName} {request.LastName}";
+            string UserName = $"{request.FirstName} {request.LastName}"; //This creates Username by Concatenation
 
             //This parses the Date of birth to Datetime datatype and also ensures that if incorrect date format is inserted, the correct BadRequest message is sent out
             DateTime dateOfBirth;
@@ -78,7 +72,7 @@ namespace Full_Stack_a_Web_API.Controllers
                 EmailAddress = request.EmailAddress,
                 DateOfBirth = request.DateOfBirth,
                 Age = age,
-                DateCreated = request.DateCreated,
+                DateCreated = DateTime.Today,
                 DateEdited = (DateTime)request.DateEdited,
                 IsDeleted = request.IsDeleted
             };
@@ -175,6 +169,24 @@ namespace Full_Stack_a_Web_API.Controllers
 
 
             string UserName = $"{request.FirstName} {request.LastName}";
+
+            //Retrieving the Users details then assign the dateCreated stored in database to the request dateCreated
+
+
+            var ExistingCustomer = await customerRespository.GetById(id);
+            if (ExistingCustomer is null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                request.DateCreated = ExistingCustomer.DateCreated;
+            }
+
+
+
+
+
             //This parses the Date of birth to Datetime datatype and also ensures that if incorrect date format is inserted, the correct BadRequest message is sent out
             DateTime dateOfBirth;
             if (!DateTime.TryParse(request.DateOfBirth, out dateOfBirth))
@@ -212,7 +224,7 @@ namespace Full_Stack_a_Web_API.Controllers
                 DateOfBirth = request.DateOfBirth,
                 Age = age,
                 DateCreated = request.DateCreated,
-                DateEdited = request.DateEdited,
+                DateEdited = DateTime.Today,
                 IsDeleted = request.IsDeleted
 
             };
@@ -221,6 +233,7 @@ namespace Full_Stack_a_Web_API.Controllers
 
             var response = new CustomerDTO
             {
+                CustomerID = customer.CustomerID,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 UserName = customer.UserName,
